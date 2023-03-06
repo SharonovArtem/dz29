@@ -11,13 +11,14 @@ namespace dzkurs
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
-            int playerX;
-            int playerY;
-            int playerDX = 0;
-            int playerDY = 0;
+
+            int playerXPosition;
+            int playerYPosition;
+            int playerDirectionX = 0;
+            int playerDirectionY = 0;
             bool isPlaying = true;
             char[,] map = new char[,]
-            { 
+            {
               {'#','#','#','#','#','#','#','#','#','#'},
               {'#','@',' ','#',' ',' ',' ','#',' ','#'},
               {'#',' ',' ','#',' ',' ',' ','#',' ','#'},
@@ -31,25 +32,25 @@ namespace dzkurs
               {'#',' ',' ',' ',' ',' ',' ','#',' ','#'},
               {'#','#','#','#','#','#','#','#','#','#'}
             };
-            char[,] readMap = ReadMap(map, out playerX, out playerY);
+            char[,] readMap = ReadMap(map, out playerXPosition, out playerYPosition);
 
             DrawMap(map);
 
             while (isPlaying)
             {
-                Console.SetCursorPosition(playerY, playerX);
+                Console.SetCursorPosition(playerYPosition, playerXPosition);
                 Console.Write('@');
 
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo key = Console.ReadKey(true);
-                    ChangeDirection(key, ref playerDX, ref playerDY);
+                    ChangeDirection(key, ref playerDirectionX, ref playerDirectionY);
 
-                    if (map[playerX + playerDX, playerY + playerDY] != '#')
+                    if (map[playerXPosition + playerDirectionX, playerYPosition + playerDirectionY] != '#')
                     {
-                        Move(map, '@', ref playerX, ref playerY, playerDX, playerDY);
+                        Move(map, '@', ref playerXPosition, ref playerYPosition, playerDirectionX, playerDirectionY);
                     }
-                }                                    
+                }
             }
         }
 
@@ -84,12 +85,15 @@ namespace dzkurs
                 case ConsoleKey.UpArrow:
                     playerDX = -1; playerDY = 0;
                     break;
+
                 case ConsoleKey.DownArrow:
                     playerDX = 1; playerDY = 0;
                     break;
+
                 case ConsoleKey.LeftArrow:
                     playerDX = 0; playerDY = -1;
                     break;
+
                 case ConsoleKey.RightArrow:
                     playerDX = 0; playerDY = 1;
                     break;
@@ -110,9 +114,10 @@ namespace dzkurs
                         playerX = i;
                         playerY = j;
                         map[i, j] = ' ';
-                    }                    
+                    }
                 }
             }
+
             return map;
         }
     }
